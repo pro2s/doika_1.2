@@ -127,7 +127,7 @@
         afterPayScroll();
       break;
       default:
-        var url = '/doika/donate-' + window.parent.doika.campaignId + '?donate=' + window.parent.doikaSum;
+        var url = '/doika/donate-' + window.parent.doika.campaignId + '?donate=' + window.parent.doikaSum + '&url=' + document.referrer;
         AJAXRequest(url, getBePaidJS);
    }
 
@@ -151,16 +151,6 @@
   }
 
   function afterPayScroll() {
-    // возвращает cookie если есть или undefined
-    function getCookie( name ) {
-      var matches = document.cookie.match( new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
-      return matches ? decodeURIComponent( matches[1] ) : null;
-    }
-
-    if( getCookie( 'pageYOffset' ) ) {
-      window.parent.scrollTo( 0, getCookie ( 'pageYOffset' ) );
-    }
+    window.parent.postMessage(['scrollToPayForm', true], '*')
   }
 }());

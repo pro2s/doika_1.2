@@ -103,10 +103,6 @@
 
   function init() {
 
-    if(sessionStorage.getItem('doikaPosition')) {
-      window.scrollTop = sessionStorage.getItem('doikaPosition');
-    }
-
     loadDonateModule();
     addPopUpToDOM();
 
@@ -128,8 +124,6 @@
 
 
    window.addEventListener("beforeunload", function(e) {
-     var top  = window.pageYOffset || document.documentElement.scrollTop;
-     sessionStorage.setItem('doikaPosition', top);
      return null;
    });
 
@@ -186,6 +180,8 @@
         window.addEventListener('message', function(e) {
 
           switch (e.data[0]) {
+            case 'scrollToPayForm':
+                location.hash = '#module-donate-wrapper';
             case 'updateIframeHeight':
                 var donateModule = document.getElementById('module-donate');
                 donateModule.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';

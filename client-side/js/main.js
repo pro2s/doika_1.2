@@ -141,7 +141,6 @@
   }
 
   function submitbutton() {
-
     if(!sum) {
       document.getElementsByClassName("module-donate__warning")[0].innerHTML = "Сума не абрана альбо не ўведзена!";
       showAlert();
@@ -153,9 +152,7 @@
       showAlert();
     } else {
       window.parent.postMessage(['doikaSubmit', sum], '*');
-      var scrolled = window.parent.window.pageYOffset;
-      document.cookie = "pageYOffset=" + scrolled + "; path=/;";
-    }
+    } 
   }
 
   function init() {
