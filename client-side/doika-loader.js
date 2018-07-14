@@ -159,8 +159,8 @@
   
     switch (getUrlParameter("message")) {
       case '1':
-       window.doika.status = "success";
-       wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+        window.doika.status = "success";
+        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
         break;
       case '2':
         window.doika.status = "decline";
