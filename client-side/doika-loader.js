@@ -153,7 +153,9 @@
 
   function loadDonateModule() {
 
-    var wrapper = document.getElementById("module-donate-wrapper");
+    var wrapper = document.getElementById("module-donate-wrapper"),
+      donateModule = document.getElementById('module-donate');
+    
     window.doika = {};
     window.doika.campaignId = wrapper.getAttribute("data-id");
 
@@ -172,9 +174,7 @@
       break;
       default:
         wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-   }
-
-    var donateModule = document.getElementById('module-donate');
+    }
 
     if (typeof window.addEventListener != 'undefined') {
         window.addEventListener('message', function(e) {
@@ -184,7 +184,6 @@
                 scrollToDonateWindow(wrapper);
                 break;
             case 'updateIframeHeight':
-                var donateModule = document.getElementById('module-donate');
                 donateModule.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
                 wrapper.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
               break;
@@ -206,11 +205,11 @@
                  });
 
                  window.addEventListener("scroll", function () {
-                   checkDonateModuleVisibility(moduleDOMElement , banner);
+                   checkDonateModuleVisibility(wrapper , banner);
                  });
 
                  window.addEventListener("resize", function () {
-                   checkDonateModuleVisibility(moduleDOMElement, banner);
+                   checkDonateModuleVisibility(wrapper, banner);
                  });
                }
             break;
