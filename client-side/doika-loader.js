@@ -153,9 +153,6 @@
 
   function loadDonateModule() {
 
-    var wrapper = document.getElementById("module-donate-wrapper"),
-      donateModule = document.getElementById('module-donate');
-    
     window.doika = {};
     window.doika.campaignId = wrapper.getAttribute("data-id");
 
@@ -178,14 +175,19 @@
 
     if (typeof window.addEventListener != 'undefined') {
         window.addEventListener('message', function(e) {
-
+          var wrapper = document.getElementById("module-donate-wrapper"),
+            donateModule = document.getElementById('module-donate');
+    
           switch (e.data[0]) {
             case 'scrollToPayForm':
                 scrollToDonateWindow(wrapper);
                 break;
             case 'updateIframeHeight':
-                donateModule.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
-                wrapper.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
+                if (donateModule) {
+                  var heightStyle = donateModule.contentWindow.document.body.scrollHeight + 'px';
+                  donateModule.style.height = heightStyle;
+                  wrapper.style.height = heightStyle;
+                }
               break;
             case 'doikaSubmit':
                 wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
