@@ -52,7 +52,7 @@
   }
 
   function scrollToDonateWindow(moduleDOMElement) {
-    moduleDOMElement.scrollIntoView({
+    moduleDOMElement && moduleDOMElement.scrollIntoView({
       behavior: 'smooth'
     });
   }
@@ -181,10 +181,8 @@
 
           switch (e.data[0]) {
             case 'scrollToPayForm':
-                var wrapper = document.getElementById('module-donate-wrapper');
-                if (wrapper) {
-                    wrapper.scrollIntoView();
-                }
+                scrollToDonateWindow(wrapper);
+                break;
             case 'updateIframeHeight':
                 var donateModule = document.getElementById('module-donate');
                 donateModule.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
@@ -201,10 +199,10 @@
             case 'dockHeader':
               if(!document.querySelector(".donateHeader")) {
                 dockBannerToTop();
-                 var moduleDOMElement = document.querySelector("#module-donate-wrapper");
                  var banner = document.querySelector(".donateHeader");
+
                  document.querySelector(".donateHeader__button").addEventListener("click", function () {
-                   scrollToDonateWindow(moduleDOMElement);
+                   scrollToDonateWindow(wrapper);
                  });
 
                  window.addEventListener("scroll", function () {
