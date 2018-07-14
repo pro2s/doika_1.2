@@ -152,31 +152,31 @@
   };
 
   function loadDonateModule() {
-
+    var wrapper = document.getElementById("module-donate-wrapper")
+    
     window.doika = {};
     window.doika.campaignId = wrapper.getAttribute("data-id");
-
+  
     switch (getUrlParameter("message")) {
       case '1':
        window.doika.status = "success";
        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-      break;
+        break;
       case '2':
         window.doika.status = "decline";
         wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-      break;
+        break;
       case '3':
         window.doika.status = "fail";
         wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-      break;
+        break;
       default:
         wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
     }
 
     if (typeof window.addEventListener != 'undefined') {
         window.addEventListener('message', function(e) {
-          var wrapper = document.getElementById("module-donate-wrapper"),
-            donateModule = document.getElementById('module-donate');
+          var donateModule = document.getElementById('module-donate');
     
           switch (e.data[0]) {
             case 'scrollToPayForm':
