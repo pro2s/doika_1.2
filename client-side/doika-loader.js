@@ -181,7 +181,10 @@
 
           switch (e.data[0]) {
             case 'scrollToPayForm':
-                location.hash = '#module-donate-wrapper';
+                var wrapper = document.getElementById('module-donate-wrapper');
+                if (wrapper) {
+                    wrapper.scrollIntoView();
+                }
             case 'updateIframeHeight':
                 var donateModule = document.getElementById('module-donate');
                 donateModule.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
