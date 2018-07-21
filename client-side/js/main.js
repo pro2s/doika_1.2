@@ -26,14 +26,14 @@
     document.getElementsByClassName("result__description")[0].insertAdjacentHTML( 'beforeend', data.innerText.resultsText);
 
     document.getElementById('module-donate').style.backgroundColor = data.backgroundColor;
-    /*var buttons = document.getElementsByTagName('button');
+	
+	var buttons = document.getElementById('module-donate').querySelectorAll("button");
+
     for( var i = 0; i < buttons.length; i++) {
-      buttons[i].style.backgroundColor = data.buttonColor;
-      buttons[i].style.backgroundColor = data.buttonColor;
-      buttons[i].style.backgroundColor = data.buttonColor;
-      buttons[i].style.fontSize = data.buttonFontSize;
-      buttons[i].style.color = data.buttonTextColor;
-    }*/
+      buttons[i].style.backgroundColor = data.buttonColor;   
+      //buttons[i].style.fontSize = data.buttonFontSize;
+      //buttons[i].style.color = data.buttonTextColor;
+    }
    
     document.getElementsByClassName("module-donate__progress-bar")[0].style.display = data.showProgressBar ? "none" : "block";
 
@@ -46,28 +46,14 @@
     updateIframeHeight()
     window.parent.doika.title = data.innerText.campaignTitle;
     window.parent.doika.result = data.innerText.resultsText;
-    window.parent.doika.color_top_banner = data.color_top_banner;
-    window.parent.doika.color_button_help = data.color_button_help;
+    window.parent.doika.color_banner_background = data.color_banner_background;
+    window.parent.doika.color_banner_help_background = data.color_banner_help_background;
+	window.parent.doika.color_banner_help_text = data.color_banner_help_text;
+	window.parent.doika.banner_visibility = data.show_banner;
     
-    window.parent.postMessage(['dockHeader', true], '*')
-    
-    injectStyles("#module-donate button {backgroundColor:"+ data.color_button_amount +"}");
-
+    window.parent.postMessage(['dockHeader', true], '*')	
   }
   
-    function injectStyles(rule) {
-        var css = rule,
-        head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
-
-        style.type = 'text/css';
-        if (style.styleSheet){
-          style.styleSheet.cssText = css;
-        } else {
-          style.appendChild(document.createTextNode(css));
-        }   
-    }
-
   function AJAXRequest(url, callback) {
         var request = new XMLHttpRequest();
         request.open('GET', url, true);
