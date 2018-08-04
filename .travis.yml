@@ -1,0 +1,11 @@
+sudo: false
+language: php
+php:
+- '7.1'
+
+before_install:
+  - pyrus install pear/PHP_CodeSniffer
+  - phpenv rehash
+
+script:
+  - phpcs --standard=ruleset.xml --extensions=php --ignore=doika/public,doika/vendor/ -n -s .
