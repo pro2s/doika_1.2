@@ -4,7 +4,7 @@ php:
 - '7.1'
 
 before_install:
-  - pyrus install pear/PHP_CodeSniffer
+  - pear install pear/PHP_CodeSniffer
   - phpenv rehash
 
 script:
