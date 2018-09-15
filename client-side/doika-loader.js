@@ -169,20 +169,20 @@
   
     switch (getUrlParameter("message")) {
       case '1':
-        window.doika.status = "success";
-        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-        break;
+       window.doika.status = "success";
+       wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+      break;
       case '2':
         window.doika.status = "decline";
-        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-        break;
+        wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+      break;
       case '3':
         window.doika.status = "fail";
-        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-        break;
+        wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+      break;
       default:
-        wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
-    }
+        wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+   }
 
     if (typeof window.addEventListener != 'undefined') {
         window.addEventListener('message', function(e) {
@@ -200,11 +200,11 @@
                 }
               break;
             case 'doikaSubmit':
-                wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+                wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-payment.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
                 window.doikaSum = e.data[1];
               break;
             case 'doikaMain':
-                wrapper.innerHTML = '<iframe id="module-donate" src="client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
+                wrapper.innerHTML = '<iframe id="module-donate" src="/client-side/module-donate-main.html" frameborder="0" scrolling=no height="0" width="100%"></iframe>';
                 window.doikaSum = 0;
               break;
             case 'dockHeader':
@@ -238,8 +238,8 @@
       wrapper.style.height = donateModule.contentWindow.document.body.scrollHeight + 'px';
     });
 
-    loadjscssfile('client-side/assets/css/banner.css','css');
-    loadjscssfile('client-side/assets/css/targetDonatePage.css','css');
+    loadjscssfile('/client-side/assets/css/banner.css','css');
+    loadjscssfile('/client-side/assets/css/targetDonatePage.css','css');
     loadjscssfile('https://js.bepaid.by/begateway-1-latest.min.js','js');
 
     donateModuleLoaded  = true;
