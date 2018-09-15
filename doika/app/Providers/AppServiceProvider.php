@@ -18,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
         if (App::environment('production')) {
             URL::forceScheme('https');
         }
+        view()->composer('layouts.admin', function ($view) {
+            $view->with('version', config('app.version'));
+            $view->with('version_date', new \DateTime(config('app.release_date')));
+        });
     }
 
     /**
