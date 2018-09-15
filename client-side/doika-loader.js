@@ -118,39 +118,15 @@
     }
 
     loadDonateModule();
-    addPopUpToDOM();
+    loadPopUpToDOM();
 
     var moduleDOMElement = document.querySelector("#module-donate");
-    var popup = document.querySelector("#doikaPopup");
-
-    document.querySelector(".b-popup-close").addEventListener("click", function () {
-      PopUpHide(popup);
+    
+    window.addEventListener("beforeunload", function(e) {
+      var top  = window.pageYOffset || document.documentElement.scrollTop;
+      sessionStorage.setItem('doikaPosition', top);
+      return null;
     });
-    popup.addEventListener("click", function () {
-      PopUpHide(popup);
-    });
-
-    document.querySelector(".b-popup-content").addEventListener("click", function(e){
-      e.stopPropagation();
-    });
-
-
-
-
-   window.addEventListener("beforeunload", function(e) {
-     var top  = window.pageYOffset || document.documentElement.scrollTop;
-     sessionStorage.setItem('doikaPosition', top);
-     return null;
-   });
-
-   if (typeof window.addEventListener != 'undefined') {
-       window.addEventListener('message', function(e) {
-         if((e.data[1] == true) && (e.data[0] == 'openPopUp')) {
-            PopUpShow(popup);
-         }
-       }, false);
-   }
-
   }
 
   function getUrlParameter(sParam) {
@@ -247,29 +223,53 @@
     donateModuleLoaded  = true;
   }
 
-  function addPopUpToDOM() {
-      var div = document.createElement('div');
-      div.className = "b-popup";
-      div.id = "doikaPopup";
-      div.innerHTML = '<div class="b-popup-content">' +
-         '<div class="b-popup-close"></div>' +
-         '<h3>На гэтай старонцы ахвяраванне робіцца банкаўскай картай</h3>' +
-         '<p>Грошы будуць прымацца як добраахвотныя ахвяраванні на статутную дзейнасць МГА "Фаланстэр" (falanster.by) і яго праекта Лічбавая майстэрня (it.falanster.by).</p>' +
-         '<p>Па націсканні кнопкі “Ахвяруй!” для Вас будзе выведзеная адмысловая плацёжная форма працэсінгавай сістэмы <a href="https://bepaid.by/"><span style="color:#F7941E">be</span><span ' + 'style="color:#65707B">Paid</span></a>.' +
-          'Для аплаты Вам спатрэбіцца ўвесці дадзеныя сваёй карты і пацвердзіць плацёж кнопкай “Аплаціць N руб.”, дзе N ― вызначаная Вамі сума.' +
-          'Мы прымаем плацяжы з наступных банкаўскіх картаў: MasterCard, Maestro, Visa, Visa Electron, Белкарт.</p>' +
-         '<p>Плацяжы з банкаўскіх картак ажыццяўляюцца праз сістэму электронных плацяжоў <a href="https://bepaid.by/"><span style="color:#F7941E">be</span><span' + 'style="color:#65707B">Paid</span>.</a> Плацёжная форма сістэмы адпавядае ўсім патрабаванням бяспекі перадачы звестак (PCI DSS Level 1). Усе канфідэнцыйныя звесткі захоўваюцца ў' + 'зашыфраваным' + 'выглядзе і максімальна ўстойлівыя да ўзлому.</p>' +
-         '<p>Зварот грашовых сум, калі вы ўжо здзейснілі ахвяраванне, не ажыццяўляецца.</p>' +
-      '</div>';
+  function AJAXRequest(url, callback) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
 
-      /*<!--<div class="b-popup-content-img">
-           <img id="b-popup-content-img-visa" src="https://lh4.googleusercontent.com/9EEq8ZYJPpco2xK00gYJFFUx_Stj37Nb5wLQanbnBU5ELcPdOan1UAy_jeUqGNFdCAoWC0PT_5AXfjwhZcPrBR1JXsrf9XGcv58mR-ktyN0vPN77gRdOaXXg1i-oCKX-CzkKK4vl=s800">
-           <img id="b-popup-content-img-belcard" src="https://lh6.googleusercontent.com/Bt1eFBKo9amovmut4a08H93W1863_8c-a24F5S-vvXiQkVTbk44B5x9O-k4bIz6S93spBuuUyAD8dVr4l7Hk-KCX6crgyMo8tN5NCra707A1sAlmzmVInE_NJKgWrf3rplqdIshN">
-           <img id="b-popup-content-img-bepaid" src="img/bepaid.png">
-           <img id="b-popup-content-img-mtbank" src="img/mtbank.png">
-         </div>-->*/
+    request.onreadystatechange = function() {
+      if (request.readyState === 4) {
+        if (request.status >= 200 && request.status < 300) {
+          return callback(request.responseText);
+        }
+      }
+    };
+    request.send();
+  }
 
-      document.body.appendChild(div);
+  function loadPopUpToDOM(html) {
+    AJAXRequest('/client-side/contract.html', addPopUpToDOM);
+  }
+  
+  function addPopUpToDOM(html) {
+      var popup = document.createElement('div');
+      popup.className = "b-popup";
+      popup.id = "doikaPopup";
+      popup.innerHTML = '<div class="b-popup-content">' +
+        '<div class="b-popup-close"></div>' +
+        html +
+        '</div>';
+      document.body.appendChild(popup);
+
+      document.querySelector(".b-popup-close").addEventListener("click", function () {
+        PopUpHide(popup);
+      });
+
+      popup.addEventListener("click", function () {
+        PopUpHide(popup);
+      });
+
+      document.querySelector(".b-popup-content").addEventListener("click", function(e){
+        e.stopPropagation();
+      });
+
+      if (typeof window.addEventListener != 'undefined') {
+        window.addEventListener('message', function(e) {
+          if((e.data[1] == true) && (e.data[0] == 'openPopUp')) {
+             PopUpShow(popup);
+          }
+        }, false);
+      }
   }
 
   //insert scripts into DOM
